@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Core 7 — Drill 1: SCBA</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #111; color: #f5f5f5; min-height: 100vh; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 16px 16px 40px; }
+  .kicker { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #ff6b35; font-weight: 700; }
+  h1 { font-size: 28px; margin: 6px 0 4px; }
+  .sub { color: #aaa; font-size: 15px; line-height: 1.5; margin-bottom: 16px; }
+  .standard { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 15px; line-height: 1.5; }
+  .standard b { color: #ff6b35; }
+  .steps-overview { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
+  .steps-overview h2 { font-size: 15px; margin-bottom: 10px; color: #ddd; }
+  .steps-overview ol { padding-left: 20px; font-size: 14px; line-height: 1.7; color: #bbb; }
+  .steps-overview ol li b { color: #eee; }
+  .btn { display: block; width: 100%; padding: 16px; font-size: 17px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; text-align: center; }
+  .btn-primary { background: #ff6b35; color: #fff; }
+  .btn-primary:active { background: #e55a28; }
+  .btn-ghost { background: #222; color: #ddd; border: 1px solid #444; margin-top: 10px; }
+  .scene-img { width: 100%; border-radius: 12px; display: block; background: #222; min-height: 200px; }
+  .scene-img[src=""] { display: none; }
+  .step-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #ff6b35; font-weight: 700; margin: 16px 0 6px; }
+  .situation { font-size: 16px; line-height: 1.55; margin-bottom: 16px; color: #eee; }
+  .opt { display: block; width: 100%; text-align: left; background: #1c1c1c; border: 1px solid #444; color: #f5f5f5; padding: 15px 16px; font-size: 15px; line-height: 1.45; border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+  .opt:active { background: #2a2a2a; }
+  .opt:disabled { opacity: 0.55; cursor: default; }
+  .opt.correct { border-color: #2ecc71; background: #12351f; }
+  .opt.wrong { border-color: #e74c3c; background: #3a1712; }
+  .feedback { border-radius: 12px; padding: 14px 16px; font-size: 15px; line-height: 1.55; margin-bottom: 14px; }
+  .feedback.good { background: #12351f; border: 1px solid #2ecc71; }
+  .feedback.bad { background: #3a1712; border: 1px solid #e74c3c; }
+  .feedback .why { color: #ccc; margin-top: 6px; font-size: 14px; }
+  .hidden { display: none !important; }
+  .progress { display: flex; gap: 6px; margin-bottom: 14px; }
+  .progress .dot { flex: 1; height: 6px; border-radius: 3px; background: #333; }
+  .progress .dot.done { background: #ff6b35; }
+  .progress .dot.now { background: #ff6b35; opacity: 0.55; }
+  .timer { font-size: 44px; font-weight: 800; text-align: center; margin: 8px 0 4px; font-variant-numeric: tabular-nums; }
+  .timer.low { color: #e74c3c; }
+  .timer-label { text-align: center; color: #aaa; font-size: 13px; margin-bottom: 14px; }
+  .report { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+  .report h2 { font-size: 16px; margin-bottom: 10px; }
+  .report ol { padding-left: 20px; font-size: 14px; line-height: 1.7; color: #bbb; }
+  .report ol li b { color: #eee; }
+  .report .meta { font-size: 14px; color: #aaa; margin-top: 10px; line-height: 1.6; }
+  .report .meta b { color: #ff6b35; }
+  .small { font-size: 13px; color: #888; text-align: center; margin-top: 18px; line-height: 1.5; }
+  .small a { color: #ff6b35; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTRO -->
+  <div id="screen-intro">
+    <div class="kicker">Core 7 &middot; Drill 1 of 7</div>
+    <h1>SCBA</h1>
+    <p class="sub">Donning the self-contained breathing apparatus. Walk the seven steps in order, the way the academy teaches it. No grading — just the steps, in order, until they stick.</p>
+    <div class="standard">The standard: <b>donning the SCBA must be completed in 35 seconds.</b> Learn the steps first, then run it against the clock.</div>
+    <div class="steps-overview">
+      <h2>The seven steps</h2>
+      <ol>
+        <li><b>Valve on</b> — cylinder valve fully on, listen for Vibralert + PASS</li>
+        <li><b>Over the head</b> — lift the pack overhead, lower it onto your back</li>
+        <li><b>Straps</b> — shoulder straps, buckle + tighten the waist belt</li>
+        <li><b>Facepiece</b> — pull it on from the bag at your left hip, secure the harness</li>
+        <li><b>Seal check</b> — press the mask to your face, check the seal</li>
+        <li><b>Hood + helmet</b> — flash hood up, helmet on, all skin covered</li>
+        <li><b>Regulator</b> — connect it, start the air. Air comes last.</li>
+      </ol>
+    </div>
+    <button class="btn btn-primary" id="btn-start">Walk it through</button>
+    <button class="btn btn-ghost" id="btn-timed-intro">Skip to the timed run (35s)</button>
+    <p class="small">Source: “Donning SCBA”, phxfd YouTube — <a href="https://www.youtube.com/watch?v=rluAjqRgv5I" target="_blank" rel="noopener">watch the video</a></p>
+  </div>
+
+  <!-- WALK-THROUGH -->
+  <div id="screen-walk" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 1: SCBA</div>
+    <div class="progress" id="progress"></div>
+    <img class="scene-img" id="scene-img" alt="">
+    <div class="step-label" id="step-label"></div>
+    <p class="situation" id="situation"></p>
+    <div id="options"></div>
+    <div id="feedback" class="hidden"></div>
+    <button class="btn btn-primary hidden" id="btn-next">Next step</button>
+  </div>
+
+  <!-- TIMED RUN -->
+  <div id="screen-timed" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 1: SCBA — Timed run</div>
+    <div class="timer" id="timer">35</div>
+    <div class="timer-label">seconds left — standard is 35</div>
+    <div class="progress" id="progress-timed"></div>
+    <img class="scene-img" id="scene-img-timed" alt="">
+    <div class="step-label" id="step-label-timed"></div>
+    <p class="situation" id="situation-timed"></p>
+    <div id="options-timed"></div>
+    <div id="feedback-timed" class="hidden"></div>
+  </div>
+
+  <!-- DONE / REPORT -->
+  <div id="screen-done" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 1: SCBA</div>
+    <h1 id="done-title">Done.</h1>
+    <p class="sub" id="done-sub"></p>
+    <div class="report">
+      <h2>Your run — the seven steps in order</h2>
+      <ol id="report-list"></ol>
+      <div class="meta" id="report-meta"></div>
+    </div>
+    <button class="btn btn-primary" id="btn-timed-again">Run it timed (35s)</button>
+    <button class="btn btn-ghost" id="btn-walk-again">Walk it through again</button>
+    <p class="small">Source: “Donning SCBA”, phxfd YouTube — <a href="https://www.youtube.com/watch?v=rluAjqRgv5I" target="_blank" rel="noopener">watch the video</a></p>
+  </div>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    n: 1, title: "Valve on",
+    img: "scenes/scene01.png",
+    situation: "You're kneeling behind the SCBA. It's upright on the ground, straps spread out. The cylinder valve is on top, still closed. What's the first thing you do?",
+    correct: "Turn the cylinder valve on fully and listen for the Vibralert and PASS activation.",
+    why: "Air first, before the pack goes on. Turning the valve on lets you hear the Vibralert (low-air alarm) and the PASS activate — that's your only air check before you don it.",
+    wrong: [
+      { t: "Lift the pack over your head and put it on.", why: "Too early. The valve has to be on first — you need to hear the Vibralert and PASS activate before the pack goes on your back." },
+      { t: "Put the facepiece on.", why: "Way too early. The facepiece doesn't go on until the pack is on your back and the straps are set. Valve first." },
+      { t: "Connect the regulator to the facepiece.", why: "Air comes last. The regulator doesn't connect until the mask is sealed and the hood and helmet are on. Valve first." }
+    ]
+  },
+  {
+    n: 2, title: "Over the head",
+    img: "scenes/scene02.png",
+    situation: "The valve is on. You heard the Vibralert and the PASS. The pack is still on the ground in front of you. How does it get onto your back?",
+    correct: "Lift the pack overhead with both arms and lower it onto your back, arms through the shoulder straps.",
+    why: "The over-the-head method. Both arms up, pack overhead, lower it straight onto your back and slip your arms through the straps.",
+    wrong: [
+      { t: "Buckle the waist belt.", why: "Nothing to buckle yet — the pack isn't on your back. Over the head first, then the straps." },
+      { t: "Turn the cylinder valve on.", why: "Already done. The valve is on and you heard the Vibralert and PASS. Next is getting the pack on your back." },
+      { t: "Pull the facepiece out of the bag.", why: "Too early. The pack has to be on your back and the straps set before the facepiece comes out." }
+    ]
+  },
+  {
+    n: 3, title: "Straps",
+    img: "scenes/scene03.png",
+    situation: "The pack is on your back, arms through the shoulder straps. It's loose and riding high. What do you tighten, and in what order?",
+    correct: "Pull the shoulder-strap ends down, buckle the waist belt, then tighten the waist strap.",
+    why: "Shoulder straps first, then the waist belt. Pull the strap ends down at your sides, buckle the belt, then tighten it so the pack sits snug and low.",
+    wrong: [
+      { t: "Put the facepiece on.", why: "Not yet. The pack has to be snugged down first — shoulder straps, then the waist belt — or the facepiece and regulator won't sit right." },
+      { t: "Connect the regulator.", why: "Air comes last. The pack isn't even strapped down yet. Straps first." },
+      { t: "Put the helmet on.", why: "Too early. The helmet goes on after the facepiece and the seal check. Right now it's just the straps." }
+    ]
+  },
+  {
+    n: 4, title: "Facepiece",
+    img: "scenes/scene04.png",
+    situation: "The pack is snug. The facepiece is in its black bag hanging at your left hip. How does it go on?",
+    correct: "Take the facepiece from the bag, pull it over your head with both hands, and pull the head harness down to secure it.",
+    why: "Both hands, fingers spread on top of your head, pull the mask down over your face and pull the harness straps down to secure it.",
+    wrong: [
+      { t: "Connect the regulator and start the air.", why: "Not yet. The mask has to be on and sealed first, then the hood and helmet, and only then the regulator. Air comes last." },
+      { t: "Put the flash hood on.", why: "The hood goes over the facepiece, so the facepiece has to be on first. Mask first, then hood." },
+      { t: "Tighten the shoulder straps again.", why: "Already done. The straps are set. Next is the facepiece." }
+    ]
+  },
+  {
+    n: 5, title: "Seal check",
+    img: "scenes/scene05.png",
+    situation: "The facepiece is on and the harness is down. Before anything else goes on, what do you check?",
+    correct: "Press the facepiece to your face and check the seal.",
+    why: "Right hand on top of the head/mask straps, left hand at the chin, palm pressing the mask against your face. The seal check comes after the facepiece and before the hood and helmet — if it doesn't seal now, nothing after it matters.",
+    wrong: [
+      { t: "Put the helmet on.", why: "Not yet. The seal has to be checked first — the helmet goes on after, over the hood. If the mask doesn't seal, you need to know now." },
+      { t: "Connect the regulator.", why: "Air comes last. The seal check comes first — mask sealed, then hood and helmet, then the regulator." },
+      { t: "Pull the flash hood up.", why: "The hood goes on after the seal check. Check the seal first, then the hood." }
+    ]
+  },
+  {
+    n: 6, title: "Hood + helmet",
+    img: "scenes/scene06.png",
+    situation: "The seal is good. What's next — and what has to be true when you're done with this step?",
+    correct: "Pull the flash hood up over the facepiece, put the helmet on, tighten the chin strap, and pull the coat collar up — all skin covered.",
+    why: "Hood first, then the helmet, settled with both hands at its sides. Chin strap tight, coat collar up. No skin showing — that's the point of this step.",
+    wrong: [
+      { t: "Connect the regulator.", why: "Almost — but the hood and helmet come first. All skin covered, then the regulator. Air comes last." },
+      { t: "Check the seal again.", why: "Already checked. The seal was good. Now it's the hood and helmet." },
+      { t: "Turn the cylinder valve on.", why: "Already done — that was step one. You're at the hood and helmet now." }
+    ]
+  },
+  {
+    n: 7, title: "Regulator",
+    img: "scenes/scene07.png",
+    situation: "Mask sealed, hood up, helmet on, all skin covered. The regulator is hanging on its hose at your chest. Last step — what do you do?",
+    correct: "Push the regulator into the front of the facepiece, locking it in, to start the air flow.",
+    why: "Air comes last. The regulator locks into the front of the mask and the air starts flowing. That's the finish — kneel, hands raised, done.",
+    wrong: [
+      { t: "Turn the cylinder valve on.", why: "Already done — that was step one, and the air has been ready since then. The regulator is what starts the flow to your mask." },
+      { t: "Check the seal again.", why: "The seal was already checked and the hood and helmet are on. The last step is the regulator — push it in and start the air." },
+      { t: "Tighten the waist belt.", why: "Already done. The pack is strapped, the mask is sealed, the hood and helmet are on. Last step: the regulator." }
+    ]
+  }
+];
+
+const STANDARD = 35;
+let mode = "walk"; // "walk" or "timed"
+let idx = 0;
+let picks = []; // {step, picked, correct}
+let timerId = null, timeLeft = STANDARD, timedStart = 0;
+
+const $ = id => document.getElementById(id);
+function show(id) {
+  ["screen-intro","screen-walk","screen-timed","screen-done"].forEach(s => $(s).classList.add("hidden"));
+  $(id).classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function shuffle(a){ const x=[...a]; for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; } return x; }
+function renderProgress(el, upto){
+  el.innerHTML = STEPS.map((s,i)=>`<div class="dot${i<upto?' done':i===upto?' now':''}"></div>`).join("");
+}
+
+function startWalk(){
+  mode="walk"; idx=0; picks=[];
+  renderProgress($("progress"), 0);
+  show("screen-walk");
+  renderWalkStep();
+}
+function renderWalkStep(){
+  const s = STEPS[idx];
+  $("step-label").textContent = `Step ${s.n} of 7 — ${s.title}`;
+  $("situation").textContent = s.situation;
+  const img = $("scene-img");
+  img.src = s.img; img.alt = `Step ${s.n}: ${s.title}`;
+  img.onerror = () => { img.style.display="none"; };
+  img.onload = () => { img.style.display="block"; };
+  $("feedback").classList.add("hidden");
+  $("btn-next").classList.add("hidden");
+  const opts = shuffle([{t:s.correct, ok:true, why:s.why}, ...s.wrong.map(w=>({t:w.t, ok:false, why:w.why}))]);
+  const box = $("options"); box.innerHTML="";
+  opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=o.t;
+    b.onclick=()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(o.ok){
+        b.classList.add("correct");
+        picks.push({step:s.n, picked:o.t, correct:true});
+        showFeedback(true, "That's it. " + o.why);
+        $("btn-next").classList.remove("hidden");
+        $("btn-next").textContent = idx===STEPS.length-1 ? "Finish — see your run" : "Next step";
+      } else {
+        b.classList.add("wrong");
+        picks.push({step:s.n, picked:o.t, correct:false});
+        showFeedback(false, o.why);
+      }
+    };
+    box.appendChild(b);
+  });
+  renderProgress($("progress"), idx);
+}
+function showFeedback(good, text){
+  const f=$("feedback");
+  f.className = "feedback " + (good?"good":"bad");
+  f.innerHTML = (good?"<b>Right.</b>":"<b>Not this step.</b>") + `<div class="why">${text}</div>` + (good?"":`<div class="why">Try another one — no penalty, just get the order right.</div>`);
+  f.classList.remove("hidden");
+}
+
+function startTimed(){
+  mode="timed"; idx=0; picks=[];
+  timeLeft = STANDARD; timedStart = Date.now();
+  $("timer").textContent = timeLeft;
+  $("timer").classList.remove("low");
+  renderProgress($("progress-timed"), 0);
+  show("screen-timed");
+  renderTimedStep();
+  clearInterval(timerId);
+  timerId = setInterval(()=>{
+    timeLeft = STANDARD - Math.floor((Date.now()-timedStart)/1000);
+    if(timeLeft<=0){ timeLeft=0; $("timer").textContent="0"; $("timer").classList.add("low"); clearInterval(timerId); finishTimed(false); return; }
+    $("timer").textContent = timeLeft;
+    if(timeLeft<=10) $("timer").classList.add("low");
+  }, 250);
+}
+function renderTimedStep(){
+  const s = STEPS[idx];
+  $("step-label-timed").textContent = `Step ${s.n} of 7 — ${s.title}`;
+  $("situation-timed").textContent = s.situation;
+  const img = $("scene-img-timed");
+  img.src = s.img; img.alt = `Step ${s.n}: ${s.title}`;
+  img.onerror = () => { img.style.display="none"; };
+  img.onload = () => { img.style.display="block"; };
+  $("feedback-timed").classList.add("hidden");
+  const opts = shuffle([{t:s.correct, ok:true}, ...s.wrong.map(w=>({t:w.t, ok:false}))]);
+  const box = $("options-timed"); box.innerHTML="";
+  opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=o.t;
+    b.onclick=()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(o.ok){
+        b.classList.add("correct");
+        picks.push({step:s.n, picked:o.t, correct:true});
+        idx++;
+        if(idx>=STEPS.length){ clearInterval(timerId); finishTimed(true); }
+        else { renderProgress($("progress-timed"), idx); setTimeout(renderTimedStep, 350); }
+      } else {
+        b.classList.add("wrong");
+        picks.push({step:s.n, picked:o.t, correct:false});
+        const f=$("feedback-timed");
+        f.className="feedback bad";
+        f.innerHTML="<b>Not this step.</b><div class=\"why\">That's out of order — pick the right next step to keep the clock running.</div>";
+        f.classList.remove("hidden");
+        setTimeout(()=>{ [...box.children].forEach(c=>{ c.disabled=false; if(c!==b) c.classList.remove("wrong"); }); b.disabled=true; f.classList.add("hidden"); }, 900);
+      }
+    };
+    box.appendChild(b);
+  });
+  renderProgress($("progress-timed"), idx);
+}
+function finishTimed(met){
+  const secs = ((Date.now()-timedStart)/1000);
+  const done = met;
+  $("done-title").textContent = done ? "Standard met." : "Out of time.";
+  $("done-sub").textContent = done
+    ? `All seven steps, in order, in ${secs.toFixed(1)} seconds — inside the 35-second standard. That's the drill.`
+    : `The clock hit zero on step ${idx+1} of 7. Walk it through once more, then run it again.`;
+  buildReport(secs, done);
+  show("screen-done");
+}
+function buildReport(secs, timedDone){
+  $("report-list").innerHTML = STEPS.map(s=>`<li><b>${s.title}</b> — ${s.correct}</li>`).join("");
+  let meta = "";
+  if(mode==="timed"){
+    meta = `Timed run: <b>${secs.toFixed(1)}s</b> (standard: ${STANDARD}s) — ${timedDone?"met standard":"did not finish in time"}.`;
+  } else {
+    const wrong = picks.filter(p=>!p.correct).length;
+    meta = `Walk-through: ${picks.length} picks, ${wrong} out of order. No grade — just the order, until it sticks.`;
+  }
+  $("report-meta").innerHTML = meta;
+}
+
+$("btn-start").onclick = startWalk;
+$("btn-timed-intro").onclick = startTimed;
+$("btn-next").onclick = ()=>{
+  idx++;
+  if(idx>=STEPS.length){
+    $("done-title").textContent = "Done.";
+    $("done-sub").textContent = "All seven steps, in order. That's the donning sequence. Run it timed when you're ready — the standard is 35 seconds.";
+    buildReport(0, false);
+    show("screen-done");
+  } else {
+    renderWalkStep();
+  }
+};
+$("btn-timed-again").onclick = startTimed;
+$("btn-walk-again").onclick = startWalk;
+</script>
+</body>
+</html>
