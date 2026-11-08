@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Core 7 — Drill 2: Captain Side Plug</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #111; color: #f5f5f5; min-height: 100vh; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 16px 16px 40px; }
+  .kicker { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #ff6b35; font-weight: 700; }
+  h1 { font-size: 28px; margin: 6px 0 4px; }
+  .sub { color: #aaa; font-size: 15px; line-height: 1.5; margin-bottom: 16px; }
+  .standard { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 15px; line-height: 1.5; }
+  .standard b { color: #ff6b35; }
+  .steps-overview { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
+  .steps-overview h2 { font-size: 15px; margin-bottom: 10px; color: #ddd; }
+  .steps-overview ol { padding-left: 20px; font-size: 14px; line-height: 1.7; color: #bbb; }
+  .steps-overview ol li b { color: #eee; }
+  .btn { display: block; width: 100%; padding: 16px; font-size: 17px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; text-align: center; }
+  .btn-primary { background: #ff6b35; color: #fff; }
+  .btn-primary:active { background: #e55a28; }
+  .btn-ghost { background: #222; color: #ddd; border: 1px solid #444; margin-top: 10px; }
+  .scene-img { width: 100%; border-radius: 12px; display: block; background: #222; min-height: 200px; }
+  .scene-img[src=""] { display: none; }
+  .step-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #ff6b35; font-weight: 700; margin: 16px 0 6px; }
+  .situation { font-size: 16px; line-height: 1.55; margin-bottom: 16px; color: #eee; }
+  .opt { display: block; width: 100%; text-align: left; background: #1c1c1c; border: 1px solid #444; color: #f5f5f5; padding: 15px 16px; font-size: 15px; line-height: 1.45; border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+  .opt:active { background: #2a2a2a; }
+  .opt:disabled { opacity: 0.55; cursor: default; }
+  .opt.correct { border-color: #2ecc71; background: #12351f; }
+  .opt.wrong { border-color: #e74c3c; background: #3a1712; }
+  .feedback { border-radius: 12px; padding: 14px 16px; font-size: 15px; line-height: 1.55; margin-bottom: 14px; }
+  .feedback.good { background: #12351f; border: 1px solid #2ecc71; }
+  .feedback.bad { background: #3a1712; border: 1px solid #e74c3c; }
+  .feedback .why { color: #ccc; margin-top: 6px; font-size: 14px; }
+  .hidden { display: none !important; }
+  .progress { display: flex; gap: 6px; margin-bottom: 14px; }
+  .progress .dot { flex: 1; height: 6px; border-radius: 3px; background: #333; }
+  .progress .dot.done { background: #ff6b35; }
+  .progress .dot.now { background: #ff6b35; opacity: 0.55; }
+  .timer { font-size: 44px; font-weight: 800; text-align: center; margin: 8px 0 4px; font-variant-numeric: tabular-nums; }
+  .timer.low { color: #e74c3c; }
+  .timer-label { text-align: center; color: #aaa; font-size: 13px; margin-bottom: 14px; }
+  .report { background: #1c1c1c; border: 1px solid #333; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+  .report h2 { font-size: 16px; margin-bottom: 10px; }
+  .report ol { padding-left: 20px; font-size: 14px; line-height: 1.7; color: #bbb; }
+  .report ol li b { color: #eee; }
+  .report .meta { font-size: 14px; color: #aaa; margin-top: 10px; line-height: 1.6; }
+  .report .meta b { color: #ff6b35; }
+  .small { font-size: 13px; color: #888; text-align: center; margin-top: 18px; line-height: 1.5; }
+  .small a { color: #ff6b35; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTRO -->
+  <div id="screen-intro">
+    <div class="kicker">Core 7 &middot; Drill 2 of 7</div>
+    <h1>Captain Side Plug</h1>
+    <p class="sub">Taking the hydrant from the captain's side of the engine. Walk the eight steps in order, the way the academy teaches it. No grading — just the steps, in order, until they stick.</p>
+    <div class="standard">The standard: <b>water must reach the clamp within 1 minute 15 seconds, and all tasks within 3 minutes 40 seconds.</b> Learn the steps first, then run it against the clock.</div>
+    <div class="steps-overview">
+      <h2>The eight steps</h2>
+      <ol>
+        <li><b>Dismount</b> — complete stop, look both ways, step off</li>
+        <li><b>Grab your gear</b> — wrench in right hand, pack strap + Humat belt with left</li>
+        <li><b>Move away</b> — pivot right, hose over left shoulder, never backward, 7 strides</li>
+        <li><b>The five strides</b> — pivot toward the plug, 5 strides past it, squat + signal</li>
+        <li><b>To the hydrant</b> — flip the hose over the hydrant, Humat out of the work area</li>
+        <li><b>Hook up the Humat</b> — break the cap, wrench on the stem, Humat on the threads, CLOSED</li>
+        <li><b>Charge it</b> — stand behind, check, open completely, water in 1:15, clamp</li>
+        <li><b>Finish up</b> — wrench back, SCBA, tool, fire — inside 3:40</li>
+      </ol>
+    </div>
+    <button class="btn btn-primary" id="btn-start">Walk it through</button>
+    <button class="btn btn-ghost" id="btn-timed-intro">Skip to the timed run (3:40)</button>
+    <p class="small">Source: “captains plug final”, phxfd YouTube — <a href="https://www.youtube.com/watch?v=_DjbE8dYN7s" target="_blank" rel="noopener">watch the video</a></p>
+  </div>
+
+  <!-- WALK-THROUGH -->
+  <div id="screen-walk" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 2: Captain Side Plug</div>
+    <div class="progress" id="progress"></div>
+    <img class="scene-img" id="scene-img" alt="">
+    <div class="step-label" id="step-label"></div>
+    <p class="situation" id="situation"></p>
+    <div id="options"></div>
+    <div id="feedback" class="hidden"></div>
+    <button class="btn btn-primary hidden" id="btn-next">Next step</button>
+  </div>
+
+  <!-- TIMED RUN -->
+  <div id="screen-timed" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 2: Captain Side Plug — Timed run</div>
+    <div class="timer" id="timer">35</div>
+    <div class="timer-label">seconds left — standard is 3:40</div>
+    <div class="progress" id="progress-timed"></div>
+    <img class="scene-img" id="scene-img-timed" alt="">
+    <div class="step-label" id="step-label-timed"></div>
+    <p class="situation" id="situation-timed"></p>
+    <div id="options-timed"></div>
+    <div id="feedback-timed" class="hidden"></div>
+  </div>
+
+  <!-- DONE / REPORT -->
+  <div id="screen-done" class="hidden">
+    <div class="kicker">Core 7 &middot; Drill 2: Captain Side Plug</div>
+    <h1 id="done-title">Done.</h1>
+    <p class="sub" id="done-sub"></p>
+    <div class="report">
+      <h2>Your run — the eight steps in order</h2>
+      <ol id="report-list"></ol>
+      <div class="meta" id="report-meta"></div>
+    </div>
+    <button class="btn btn-primary" id="btn-timed-again">Run it timed (3:40)</button>
+    <button class="btn btn-ghost" id="btn-walk-again">Walk it through again</button>
+    <p class="small">Source: “captains plug final”, phxfd YouTube — <a href="https://www.youtube.com/watch?v=_DjbE8dYN7s" target="_blank" rel="noopener">watch the video</a></p>
+  </div>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    "title": "Dismount",
+    "situation": "You're in the seat, fully turned out and belted, radio in your front jacket pocket. The engine is rolling up to the plug. What happens first?",
+    "correct": "Wait for the apparatus to come to a complete stop, look and verbalize looking both ways, then dismount.",
+    "why": "Never step off a moving rig. Complete stop first, look both ways and say it out loud, then dismount.",
+    "wrong": [
+      {
+        "t": "Grab the plug wrench in your right hand.",
+        "why": "Not yet \u2014 you're still belted in the seat. Complete stop and dismount first."
+      },
+      {
+        "t": "Take the supply line in your free hand.",
+        "why": "Too early. You're still in the seat. Dismount first."
+      },
+      {
+        "t": "Pivot right and walk away from the truck.",
+        "why": "You haven't even dismounted yet. Complete stop, look both ways, dismount."
+      }
+    ],
+    "n": 1,
+    "img": "scenes/scene01.png"
+  },
+  {
+    "title": "Grab your gear",
+    "situation": "You're on the ground beside the engine. The plug wrench, the pack strap, and the Humat valve are right there. What do your hands do?",
+    "correct": "Grab the plug wrench in your right hand, undo the pack strap with your left hand, then unbuckle the Humat valve seat belt with your left hand.",
+    "why": "Wrench in the right hand, pack strap undone with the left, then the Humat seat belt with the left. Now you've got the wrench and the Humat in your right hand and the supply line in your free hand.",
+    "wrong": [
+      {
+        "t": "Take enough hose to reach 7 strides past the plug.",
+        "why": "Not yet \u2014 you don't have the wrench and Humat in hand. Grab your gear first."
+      },
+      {
+        "t": "Pivot right so the hose is over your left shoulder.",
+        "why": "Too early. You need the wrench and Humat in hand before you move away from the truck."
+      },
+      {
+        "t": "Squat with the Humat in front of you facing the plug.",
+        "why": "Way too early. You're still at the truck getting your gear."
+      }
+    ],
+    "n": 2,
+    "img": "scenes/scene02.png"
+  },
+  {
+    "title": "Move away from the truck",
+    "situation": "You've got the wrench and the Humat in your right hand and the supply line in your free hand. The engine is behind you. How do you move away from the truck?",
+    "correct": "Pivot to your right so the hose is over your left shoulder, and walk away from the truck \u2014 never step backward. Take enough hose to reach 7 strides past the plug.",
+    "why": "Pivot right, hose over the left shoulder, walk forward away from the truck. Never step backward \u2014 that's how you trip over the hose. Pull enough hose to reach 7 strides past the plug.",
+    "wrong": [
+      {
+        "t": "Walk backward away from the truck, pulling the hose.",
+        "why": "Never step backward. Pivot right, hose over the left shoulder, and walk forward away from the truck."
+      },
+      {
+        "t": "Take 5 strides past the plug.",
+        "why": "Not yet \u2014 first you take enough hose to reach 7 strides past the plug. The strides past the plug come after you pivot toward it."
+      },
+      {
+        "t": "Flip the hose over the hydrant.",
+        "why": "Too early. You're still moving away from the truck with the hose. The hydrant comes after the squat and the signal."
+      }
+    ],
+    "n": 3,
+    "img": "scenes/scene03.png"
+  },
+  {
+    "title": "The five strides",
+    "situation": "You've got enough hose to reach 7 strides past the plug. You're facing away from the truck with the hose over your left shoulder. Captain side \u2014 what's next?",
+    "correct": "Pivot toward the plug and take 5 strides past the plug. Squat \u2014 feet flat, knees bent, Humat on the ground in front of you, facing the plug, wrench in hand. Physically and verbally signal the engineer to go.",
+    "why": "Captain side: 5 strides past the plug after the pivot (the Engineer takes 2). Then squat \u2014 feet flat, knees bent, Humat on the ground in front of you facing the plug \u2014 and signal the engineer to go, physically and verbally.",
+    "wrong": [
+      {
+        "t": "Take 2 strides past the plug.",
+        "why": "That's the Engineer side. Captain side takes 5 strides past the plug."
+      },
+      {
+        "t": "Break the steamer cap with the wrench.",
+        "why": "Not yet \u2014 you're still at the squat. Signal the engineer first, then the coupling drops and you go to the hydrant."
+      },
+      {
+        "t": "Open the hydrant completely.",
+        "why": "Way too early. You haven't even signaled the engineer yet. Squat, signal, then the hydrant work."
+      }
+    ],
+    "n": 4,
+    "img": "scenes/scene04.png"
+  },
+  {
+    "title": "To the hydrant",
+    "situation": "You signaled the engineer. The first coupling just dropped from the hose bed. The hydrant is in front of you. What do you do with the Humat and the hose?",
+    "correct": "Take the Humat in your right hand, walk toward the hydrant, and flip the hose over the hydrant, placing the Humat out of the work area.",
+    "why": "After the coupling drops, Humat in the right hand, walk to the hydrant, and flip the hose over the top of it. The Humat goes out of the work area so it's not underfoot.",
+    "wrong": [
+      {
+        "t": "Wrap the supply line around the hydrant and pull it back.",
+        "why": "That's the Engineer side pull-back. Captain side flips the hose over the hydrant."
+      },
+      {
+        "t": "Open the hydrant completely.",
+        "why": "Not yet \u2014 the Humat isn't even on the steamer. Flip the hose, then the cap and the Humat."
+      },
+      {
+        "t": "Don your SCBA.",
+        "why": "Way too early. You're at the hydrant with the Humat. SCBA comes at the very end, back at the apparatus."
+      }
+    ],
+    "n": 5,
+    "img": "scenes/scene05.png"
+  },
+  {
+    "title": "Hook up the Humat",
+    "situation": "The hose is at the hydrant and the Humat is out of the work area. The steamer cap is still on. What's the hookup sequence?",
+    "correct": "Break the steamer cap with the wrench and place the wrench on the hydrant stem. Remove the steamer cap and place the Humat on the exposed steamer threads. Make sure the shut-off valve is CLOSED, lever pointing up. Create a larger loop in the supply line before charging.",
+    "why": "Break the cap with the wrench, wrench on the stem \u2014 never on the ground. Cap off, Humat onto the steamer threads. Check the shut-off is CLOSED with the lever up. Then make a larger loop in the supply line before you charge it.",
+    "wrong": [
+      {
+        "t": "Place the wrench on the ground and remove the steamer cap.",
+        "why": "Never put the wrench on the ground \u2014 it goes on the hydrant stem. Break the cap, wrench on the stem, then the cap off."
+      },
+      {
+        "t": "Open the hydrant completely.",
+        "why": "Not yet \u2014 the Humat has to be on the steamer threads and the shut-off checked CLOSED first. Hook up, then charge."
+      },
+      {
+        "t": "Stand on the hose clamp and unscrew it.",
+        "why": "Too early. The Humat isn't hooked up yet. Cap, Humat, CLOSED check, larger loop \u2014 then you charge."
+      }
+    ],
+    "n": 6,
+    "img": "scenes/scene06.png"
+  },
+  {
+    "title": "Charge it",
+    "situation": "The Humat is on the steamer, shut-off CLOSED, lever up, and you've made a larger loop in the supply line. Time to charge it. What's the sequence \u2014 and what are the two clocks?",
+    "correct": "Stand behind the hydrant in a wide staggered stance, check the Humat valve is closed and the hose clamp is secure and in place, then verbalize or signal water is flowing. Open the hydrant completely. Water must reach the clamp within 1 minute 15 seconds. Stand on the hose clamp while facing the danger and unscrew it until a space appears. Straighten kinks near the hydrant \u2014 without walking backward.",
+    "why": "Stand behind the hydrant, wide staggered stance, feet either side of the hose. Check the Humat is closed and the clamp is secure. Signal water is flowing, then open the hydrant completely. Water has to reach the clamp in 1:15. Then stand on the clamp, facing the danger, and unscrew it until there's a space. Straighten the kinks \u2014 and never walk backward.",
+    "wrong": [
+      {
+        "t": "Open the hydrant halfway and check for leaks.",
+        "why": "The hydrant opens completely \u2014 not halfway. Check the Humat is closed and the clamp is secure first, then open it all the way."
+      },
+      {
+        "t": "Walk backward along the supply line to the apparatus.",
+        "why": "Never walk backward. You take the wrench and follow the supply line back to the apparatus \u2014 but that's the next step, and you walk it forward."
+      },
+      {
+        "t": "Don your SCBA and close the compartment door.",
+        "why": "Not yet \u2014 the water isn't even flowing. Charge it first, then the wrench back to the apparatus, then SCBA."
+      }
+    ],
+    "n": 7,
+    "img": "scenes/scene07.png"
+  },
+  {
+    "title": "Finish up",
+    "situation": "Water is flowing, the clamp is unscrewed, kinks are straight. The hydrant is charged. What's the finish \u2014 and what's the overall time limit?",
+    "correct": "Take the hydrant wrench and follow the supply line back to the apparatus. Place the wrench on the back of the apparatus, don your SCBA, and close the compartment door. Grab the tool the instructor selects, close the compartment door, and proceed to the fire, ready for IDLH. All tasks within 3 minutes 40 seconds.",
+    "why": "Wrench in hand, follow the supply line back to the rig. Wrench on the back of the apparatus, don your SCBA, close the door. Grab the instructor's tool, close the door, and go to the fire \u2014 ready for IDLH, PPE correct, bottle fully open, no skin exposed, no air leaks. All of it inside 3:40.",
+    "wrong": [
+      {
+        "t": "Leave the hydrant wrench on the hydrant stem and walk to the fire.",
+        "why": "The wrench goes back on the apparatus, not left on the hydrant. Then SCBA, then the instructor's tool."
+      },
+      {
+        "t": "Open the hydrant completely.",
+        "why": "Already done \u2014 the hydrant is charged and water is flowing. This is the finish: wrench back, SCBA, tool, fire."
+      },
+      {
+        "t": "Take more strides past the plug.",
+        "why": "That was step four. You're done at the hydrant \u2014 the finish is the wrench, the SCBA, and the tool."
+      }
+    ],
+    "n": 8,
+    "img": "scenes/scene08.png"
+  }
+];
+
+const STANDARD = 220;
+let mode = "walk"; // "walk" or "timed"
+let idx = 0;
+let picks = []; // {step, picked, correct}
+let timerId = null, timeLeft = STANDARD, timedStart = 0;
+
+const $ = id => document.getElementById(id);
+function show(id) {
+  ["screen-intro","screen-walk","screen-timed","screen-done"].forEach(s => $(s).classList.add("hidden"));
+  $(id).classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function shuffle(a){ const x=[...a]; for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; } return x; }
+function renderProgress(el, upto){
+  el.innerHTML = STEPS.map((s,i)=>`<div class="dot${i<upto?' done':i===upto?' now':''}"></div>`).join("");
+}
+
+function startWalk(){
+  mode="walk"; idx=0; picks=[];
+  renderProgress($("progress"), 0);
+  show("screen-walk");
+  renderWalkStep();
+}
+function renderWalkStep(){
+  const s = STEPS[idx];
+  $("step-label").textContent = `Step ${s.n} of 8 — ${s.title}`;
+  $("situation").textContent = s.situation;
+  const img = $("scene-img");
+  img.src = s.img; img.alt = `Step ${s.n}: ${s.title}`;
+  img.onerror = () => { img.style.display="none"; };
+  img.onload = () => { img.style.display="block"; };
+  $("feedback").classList.add("hidden");
+  $("btn-next").classList.add("hidden");
+  const opts = shuffle([{t:s.correct, ok:true, why:s.why}, ...s.wrong.map(w=>({t:w.t, ok:false, why:w.why}))]);
+  const box = $("options"); box.innerHTML="";
+  opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=o.t;
+    b.onclick=()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(o.ok){
+        b.classList.add("correct");
+        picks.push({step:s.n, picked:o.t, correct:true});
+        showFeedback(true, "That's it. " + o.why);
+        $("btn-next").classList.remove("hidden");
+        $("btn-next").textContent = idx===STEPS.length-1 ? "Finish — see your run" : "Next step";
+      } else {
+        b.classList.add("wrong");
+        picks.push({step:s.n, picked:o.t, correct:false});
+        showFeedback(false, o.why);
+      }
+    };
+    box.appendChild(b);
+  });
+  renderProgress($("progress"), idx);
+}
+function showFeedback(good, text){
+  const f=$("feedback");
+  f.className = "feedback " + (good?"good":"bad");
+  f.innerHTML = (good?"<b>Right.</b>":"<b>Not this step.</b>") + `<div class="why">${text}</div>` + (good?"":`<div class="why">Try another one — no penalty, just get the order right.</div>`);
+  f.classList.remove("hidden");
+}
+
+function startTimed(){
+  mode="timed"; idx=0; picks=[];
+  timeLeft = STANDARD; timedStart = Date.now();
+  $("timer").textContent = timeLeft;
+  $("timer").classList.remove("low");
+  renderProgress($("progress-timed"), 0);
+  show("screen-timed");
+  renderTimedStep();
+  clearInterval(timerId);
+  timerId = setInterval(()=>{
+    timeLeft = STANDARD - Math.floor((Date.now()-timedStart)/1000);
+    if(timeLeft<=0){ timeLeft=0; $("timer").textContent="0"; $("timer").classList.add("low"); clearInterval(timerId); finishTimed(false); return; }
+    $("timer").textContent = timeLeft;
+    if(timeLeft<=10) $("timer").classList.add("low");
+  }, 250);
+}
+function renderTimedStep(){
+  const s = STEPS[idx];
+  $("step-label-timed").textContent = `Step ${s.n} of 8 — ${s.title}`;
+  $("situation-timed").textContent = s.situation;
+  const img = $("scene-img-timed");
+  img.src = s.img; img.alt = `Step ${s.n}: ${s.title}`;
+  img.onerror = () => { img.style.display="none"; };
+  img.onload = () => { img.style.display="block"; };
+  $("feedback-timed").classList.add("hidden");
+  const opts = shuffle([{t:s.correct, ok:true}, ...s.wrong.map(w=>({t:w.t, ok:false}))]);
+  const box = $("options-timed"); box.innerHTML="";
+  opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=o.t;
+    b.onclick=()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(o.ok){
+        b.classList.add("correct");
+        picks.push({step:s.n, picked:o.t, correct:true});
+        idx++;
+        if(idx>=STEPS.length){ clearInterval(timerId); finishTimed(true); }
+        else { renderProgress($("progress-timed"), idx); setTimeout(renderTimedStep, 350); }
+      } else {
+        b.classList.add("wrong");
+        picks.push({step:s.n, picked:o.t, correct:false});
+        const f=$("feedback-timed");
+        f.className="feedback bad";
+        f.innerHTML="<b>Not this step.</b><div class=\"why\">That's out of order — pick the right next step to keep the clock running.</div>";
+        f.classList.remove("hidden");
+        setTimeout(()=>{ [...box.children].forEach(c=>{ c.disabled=false; if(c!==b) c.classList.remove("wrong"); }); b.disabled=true; f.classList.add("hidden"); }, 900);
+      }
+    };
+    box.appendChild(b);
+  });
+  renderProgress($("progress-timed"), idx);
+}
+function finishTimed(met){
+  const secs = ((Date.now()-timedStart)/1000);
+  const done = met;
+  $("done-title").textContent = done ? "Standard met." : "Out of time.";
+  $("done-sub").textContent = done
+    ? `All eight steps, in order, in ${secs.toFixed(1)} seconds — inside the 35-second standard. That's the drill.`
+    : `The clock hit zero on step ${idx+1} of 8. Walk it through once more, then run it again.`;
+  buildReport(secs, done);
+  show("screen-done");
+}
+function buildReport(secs, timedDone){
+  $("report-list").innerHTML = STEPS.map(s=>`<li><b>${s.title}</b> — ${s.correct}</li>`).join("");
+  let meta = "";
+  if(mode==="timed"){
+    meta = `Timed run: <b>${secs.toFixed(1)}s</b> (standard: 3:40) — ${timedDone?"met standard":"did not finish in time"}.`;
+  } else {
+    const wrong = picks.filter(p=>!p.correct).length;
+    meta = `Walk-through: ${picks.length} picks, ${wrong} out of order. No grade — just the order, until it sticks.`;
+  }
+  $("report-meta").innerHTML = meta;
+}
+
+$("btn-start").onclick = startWalk;
+$("btn-timed-intro").onclick = startTimed;
+$("btn-next").onclick = ()=>{
+  idx++;
+  if(idx>=STEPS.length){
+    $("done-title").textContent = "Done.";
+    $("done-sub").textContent = "All eight steps, in order. That's the donning sequence. Run it timed when you're ready — the standard is 35 seconds.";
+    buildReport(0, false);
+    show("screen-done");
+  } else {
+    renderWalkStep();
+  }
+};
+$("btn-timed-again").onclick = startTimed;
+$("btn-walk-again").onclick = startWalk;
+</script>
+</body>
+</html>
